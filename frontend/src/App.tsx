@@ -13,14 +13,21 @@ import {
   WalkingPage,
   FoodScanPage,
   InsightsPage,
+  OnboardingPage,
 } from '@/pages';
 
 const App: React.FC = () => {
-  const { loadUser, isAuthenticated } = useAuthStore();
+  const { loadUser, isAuthenticated, loadProfile } = useAuthStore();
 
   useEffect(() => {
     loadUser();
   }, [loadUser]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadProfile();
+    }
+  }, [isAuthenticated, loadProfile]);
 
   return (
     <BrowserRouter>
@@ -32,7 +39,17 @@ const App: React.FC = () => {
         />
         <Route 
           path="/register" 
-          element={isAuthenticated ? <Navigate to="/dashboard" /> : <RegisterPage />} 
+          element={isAuthenticated ? <Navigate to="/onboarding" /> : <RegisterPage />} 
+        />
+
+        {/* Onboarding - protected but doesn't require onboarding completion */}
+        <Route
+          path="/onboarding"
+          element={
+            <ProtectedRoute requireOnboarding={false}>
+              <OnboardingPage />
+            </ProtectedRoute>
+          }
         />
 
         {/* Protected routes */}

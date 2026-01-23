@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 export const DashboardPage: React.FC = () => {
-  const { profile, goals } = useAuthStore();
+  const { profile } = useAuthStore();
   const { dashboard, isLoading, loadDashboard, loadRecommendations, recommendations } = useDashboardStore();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const DashboardPage: React.FC = () => {
     return 'Good evening';
   };
 
-  const caloriePercent = dashboard.today.calories.percent;
+  const caloriePercent = dashboard.nutrition.calories.percent;
   const calorieColor = caloriePercent > 100 ? '#ef4444' : caloriePercent > 80 ? '#f97316' : '#22c55e';
 
   return (
@@ -70,18 +70,18 @@ export const DashboardPage: React.FC = () => {
             >
               <div className="text-center">
                 <p className="text-3xl font-bold text-secondary-900">
-                  {dashboard.today.calories.consumed}
+                  {dashboard.nutrition.calories.consumed}
                 </p>
                 <p className="text-sm text-secondary-500">
-                  / {dashboard.today.calories.goal} kcal
+                  / {dashboard.nutrition.calories.goal} kcal
                 </p>
               </div>
             </ProgressRing>
             <div className="mt-4 text-center">
               <p className="text-lg font-semibold text-secondary-900">
-                {dashboard.today.calories.goal - dashboard.today.calories.consumed > 0
-                  ? `${dashboard.today.calories.goal - dashboard.today.calories.consumed} kcal remaining`
-                  : `${dashboard.today.calories.consumed - dashboard.today.calories.goal} kcal over`}
+                {dashboard.nutrition.calories.remaining > 0
+                  ? `${dashboard.nutrition.calories.remaining} kcal remaining`
+                  : `${Math.abs(dashboard.nutrition.calories.goal - dashboard.nutrition.calories.consumed)} kcal over`}
               </p>
             </div>
           </div>
@@ -96,11 +96,11 @@ export const DashboardPage: React.FC = () => {
               <div className="flex justify-between mb-1">
                 <span className="text-sm font-medium text-secondary-700">Protein</span>
                 <span className="text-sm text-secondary-500">
-                  {dashboard.macros.protein.grams}g / {dashboard.macros.protein.goal}g
+                  {dashboard.nutrition.protein.consumed}g / {dashboard.nutrition.protein.goal}g
                 </span>
               </div>
               <ProgressBar
-                progress={dashboard.macros.protein.percent}
+                progress={dashboard.nutrition.protein.percent}
                 color="bg-blue-500"
               />
             </div>
@@ -110,11 +110,11 @@ export const DashboardPage: React.FC = () => {
               <div className="flex justify-between mb-1">
                 <span className="text-sm font-medium text-secondary-700">Carbohydrates</span>
                 <span className="text-sm text-secondary-500">
-                  {dashboard.macros.carbs.grams}g / {dashboard.macros.carbs.goal}g
+                  {dashboard.nutrition.carbs.consumed}g / {dashboard.nutrition.carbs.goal}g
                 </span>
               </div>
               <ProgressBar
-                progress={dashboard.macros.carbs.percent}
+                progress={dashboard.nutrition.carbs.percent}
                 color="bg-orange-500"
               />
             </div>
@@ -124,11 +124,11 @@ export const DashboardPage: React.FC = () => {
               <div className="flex justify-between mb-1">
                 <span className="text-sm font-medium text-secondary-700">Fat</span>
                 <span className="text-sm text-secondary-500">
-                  {dashboard.macros.fat.grams}g / {dashboard.macros.fat.goal}g
+                  {dashboard.nutrition.fat.consumed}g / {dashboard.nutrition.fat.goal}g
                 </span>
               </div>
               <ProgressBar
-                progress={dashboard.macros.fat.percent}
+                progress={dashboard.nutrition.fat.percent}
                 color="bg-purple-500"
               />
             </div>
@@ -140,29 +140,29 @@ export const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Water"
-          value={`${(dashboard.today.water.consumed_ml / 1000).toFixed(1)}L`}
-          subtitle={`Goal: ${(dashboard.today.water.goal_ml / 1000).toFixed(1)}L`}
+          value={`${(dashboard.water.consumed / 1000).toFixed(1)}L`}
+          subtitle={`Goal: ${(dashboard.water.goal / 1000).toFixed(1)}L`}
           icon={<BeakerIcon className="w-5 h-5" />}
           color="blue"
         />
         <StatCard
           title="Steps"
-          value={dashboard.today.steps.count.toLocaleString()}
-          subtitle={`Goal: ${dashboard.today.steps.goal.toLocaleString()}`}
+          value={dashboard.steps.count.toLocaleString()}
+          subtitle={`Goal: ${dashboard.steps.goal.toLocaleString()}`}
           icon={<HeartIcon className="w-5 h-5" />}
           color="green"
         />
         <StatCard
           title="Exercise"
-          value={`${dashboard.today.exercise.minutes} min`}
-          subtitle={`${dashboard.today.exercise.calories_burned} kcal burned`}
+          value={`${dashboard.exercise.minutes} min`}
+          subtitle={`${dashboard.exercise.calories_burned} kcal burned`}
           icon={<HeartIcon className="w-5 h-5" />}
           color="orange"
         />
         <StatCard
-          title="Streak"
-          value={`${dashboard.streak.logging_streak_days} days`}
-          subtitle="Logging streak"
+          title="Net Calories"
+          value={`${dashboard.net_calories}`}
+          subtitle="Consumed - Burned"
           icon={<FireIcon className="w-5 h-5" />}
           color="purple"
         />
@@ -236,69 +236,6 @@ export const DashboardPage: React.FC = () => {
           </div>
         </Card>
       )}
-
-      {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader
-            title="Recent Meals"
-            action={
-              <Link to="/nutrition" className="text-sm text-primary-600 hover:underline">
-                View all
-              </Link>
-            }
-          />
-          {dashboard.recent_meals.length > 0 ? (
-            <div className="space-y-3">
-              {dashboard.recent_meals.slice(0, 5).map((meal) => (
-                <div
-                  key={meal.id}
-                  className="flex items-center justify-between py-2 border-b border-secondary-100 last:border-0"
-                >
-                  <div>
-                    <p className="font-medium text-secondary-900">{meal.food_name}</p>
-                    <p className="text-sm text-secondary-500 capitalize">{meal.meal_type}</p>
-                  </div>
-                  <span className="font-medium text-secondary-700">{meal.calories} kcal</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-secondary-500 text-center py-4">No meals logged today</p>
-          )}
-        </Card>
-
-        <Card>
-          <CardHeader
-            title="Recent Exercise"
-            action={
-              <Link to="/exercise" className="text-sm text-primary-600 hover:underline">
-                View all
-              </Link>
-            }
-          />
-          {dashboard.recent_exercises.length > 0 ? (
-            <div className="space-y-3">
-              {dashboard.recent_exercises.slice(0, 5).map((exercise) => (
-                <div
-                  key={exercise.id}
-                  className="flex items-center justify-between py-2 border-b border-secondary-100 last:border-0"
-                >
-                  <div>
-                    <p className="font-medium text-secondary-900">{exercise.exercise_name}</p>
-                    <p className="text-sm text-secondary-500">{exercise.duration_minutes} min</p>
-                  </div>
-                  <span className="font-medium text-secondary-700">
-                    {exercise.calories_burned} kcal
-                  </span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-secondary-500 text-center py-4">No exercise logged today</p>
-          )}
-        </Card>
-      </div>
     </div>
   );
 };

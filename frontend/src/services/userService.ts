@@ -51,33 +51,33 @@ export interface OnboardingStep {
 
 export const userService = {
   async getProfile(): Promise<UserProfile> {
-    const response = await api.get<ApiResponse<UserProfile>>('/users/profile');
+    const response = await api.get<{ data: UserProfile }>('/users/profile');
     return response.data.data;
   },
 
   async updateProfile(data: ProfileUpdateData): Promise<UserProfile> {
-    const response = await api.put<ApiResponse<UserProfile>>('/users/profile', data);
+    const response = await api.patch<{ data: UserProfile }>('/users/profile', data);
     return response.data.data;
   },
 
   async getGoals(): Promise<UserGoals> {
-    const response = await api.get<ApiResponse<UserGoals>>('/users/goals');
+    const response = await api.get<{ data: UserGoals }>('/users/goals');
     return response.data.data;
   },
 
   async updateGoals(data: GoalsUpdateData): Promise<UserGoals> {
-    const response = await api.put<ApiResponse<UserGoals>>('/users/goals', data);
+    const response = await api.patch<{ data: UserGoals }>('/users/goals', data);
     return response.data.data;
   },
 
   async calculateGoals(): Promise<UserGoals> {
-    const response = await api.post<ApiResponse<UserGoals>>('/users/goals/calculate');
+    const response = await api.post<{ data: UserGoals }>('/users/goals/calculate');
     return response.data.data;
   },
 
   async submitOnboardingStep(data: OnboardingStep): Promise<{ step: number; completed: boolean }> {
-    const response = await api.post<ApiResponse<{ step: number; completed: boolean }>>('/users/onboarding', data);
-    return response.data.data;
+    const response = await api.post<{ step: number; completed: boolean }>('/users/onboarding', data);
+    return response.data;
   },
 
   async completeOnboarding(): Promise<void> {
@@ -85,8 +85,8 @@ export const userService = {
   },
 
   async getOnboardingResponses(): Promise<OnboardingStep[]> {
-    const response = await api.get<ApiResponse<OnboardingStep[]>>('/users/onboarding/responses');
-    return response.data.data;
+    const response = await api.get<OnboardingStep[]>('/users/onboarding/responses');
+    return response.data;
   },
 };
 

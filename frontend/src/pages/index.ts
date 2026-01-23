@@ -6,3 +6,4 @@ export { ExercisePage } from './ExercisePage';
 export { WalkingPage } from './WalkingPage';
 export { FoodScanPage } from './FoodScanPage';
 export { InsightsPage } from './InsightsPage';
+export { OnboardingPage } from './OnboardingPage';
