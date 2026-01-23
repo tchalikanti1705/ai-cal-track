@@ -63,13 +63,13 @@ class InsightsService:
         ).first()
         steps_today = step_count.total_steps if step_count else 0
         
-        # Goals
-        calorie_goal = goals.daily_calorie_goal if goals else 2000
-        protein_goal = goals.protein_goal_g if goals else 50
-        carbs_goal = goals.carbs_goal_g if goals else 250
-        fat_goal = goals.fat_goal_g if goals else 65
-        water_goal = goals.water_goal_ml if goals else 2000
-        steps_goal = goals.daily_steps_goal if goals else 10000
+        # Goals - use defaults if None
+        calorie_goal = (goals.daily_calorie_goal if goals and goals.daily_calorie_goal else None) or 2000
+        protein_goal = (goals.protein_goal_g if goals and goals.protein_goal_g else None) or 50
+        carbs_goal = (goals.carbs_goal_g if goals and goals.carbs_goal_g else None) or 250
+        fat_goal = (goals.fat_goal_g if goals and goals.fat_goal_g else None) or 65
+        water_goal = (goals.water_goal_ml if goals and goals.water_goal_ml else None) or 2000
+        steps_goal = (goals.daily_steps_goal if goals and goals.daily_steps_goal else None) or 10000
         
         return {
             "date": target_date.isoformat(),
