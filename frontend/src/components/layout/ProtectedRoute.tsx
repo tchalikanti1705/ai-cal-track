@@ -5,10 +5,14 @@ import { LoadingSpinner } from '@/components/ui';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  requireOnboarding?: boolean;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuthStore();
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
+  children, 
+  requireOnboarding = true 
+}) => {
+  const { isAuthenticated, isLoading, profile } = useAuthStore();
   const location = useLocation();
 
   if (isLoading) {
@@ -21,6 +25,18 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // Check if user has completed onboarding (has profile with required fields)
+  if (requireOnboarding && profile !== undefined) {
+    const hasCompletedOnboarding = profile && 
+      profile.first_name && 
+      profile.height_cm && 
+      profile.current_weight_kg;
+    
+    if (!hasCompletedOnboarding && location.pathname !== '/onboarding') {
+      return <Navigate to="/onboarding" replace />;
+    }
   }
 
   return <>{children}</>;

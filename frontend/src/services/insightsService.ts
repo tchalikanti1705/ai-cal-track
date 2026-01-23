@@ -9,16 +9,16 @@ import type {
 export const insightsService = {
   // Dashboard
   async getDashboard(): Promise<DashboardData> {
-    const response = await api.get<ApiResponse<DashboardData>>('/insights/dashboard');
-    return response.data.data;
+    const response = await api.get<DashboardData>('/insights/dashboard');
+    return response.data;
   },
 
   // Trends
   async getWeeklyTrends(startDate?: string): Promise<WeeklyTrend> {
-    const response = await api.get<ApiResponse<WeeklyTrend>>('/insights/trends/weekly', {
+    const response = await api.get<WeeklyTrend>('/insights/trends/weekly', {
       params: startDate ? { start_date: startDate } : undefined,
     });
-    return response.data.data;
+    return response.data;
   },
 
   async getMonthlyTrends(month?: number, year?: number): Promise<{
@@ -48,8 +48,8 @@ export const insightsService = {
 
   // Recommendations
   async getRecommendations(): Promise<InsightRecommendation[]> {
-    const response = await api.get<ApiResponse<InsightRecommendation[]>>('/insights/recommendations');
-    return response.data.data;
+    const response = await api.get<InsightRecommendation[]>('/insights/recommendations');
+    return response.data;
   },
 
   // Progress

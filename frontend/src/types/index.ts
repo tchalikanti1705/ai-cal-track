@@ -306,24 +306,18 @@ export interface FoodScanResult {
 
 // Insights Types
 export interface DashboardData {
-  today: {
-    calories: { consumed: number; goal: number; percent: number };
-    water: { consumed_ml: number; goal_ml: number; percent: number };
-    steps: { count: number; goal: number; percent: number };
-    exercise: { minutes: number; calories_burned: number };
+  date: string;
+  nutrition: {
+    calories: { consumed: number; goal: number; remaining: number; percent: number };
+    protein: { consumed: number; goal: number; percent: number };
+    carbs: { consumed: number; goal: number; percent: number };
+    fat: { consumed: number; goal: number; percent: number };
+    meals_logged: number;
   };
-  macros: {
-    protein: { grams: number; goal: number; percent: number };
-    carbs: { grams: number; goal: number; percent: number };
-    fat: { grams: number; goal: number; percent: number };
-  };
-  streak: {
-    logging_streak_days: number;
-    water_streak_days: number;
-    exercise_streak_days: number;
-  };
-  recent_meals: NutritionLog[];
-  recent_exercises: ExerciseLog[];
+  water: { consumed: number; goal: number; remaining: number; percent: number; entries: number };
+  exercise: { calories_burned: number; minutes: number; workouts: number };
+  steps: { count: number; goal: number; percent: number };
+  net_calories: number;
 }
 
 export interface WeeklyTrend {
