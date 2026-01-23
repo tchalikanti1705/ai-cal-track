@@ -1,134 +1,29 @@
-# 🥗 AI Food Tracking
+# AI Food Tracking
 
-A comprehensive health and nutrition tracking platform with AI-powered food recognition.
+A health and nutrition tracking platform with AI-powered food recognition.
 
 ## Features
 
-- **🔐 User Authentication** - Secure login/registration with JWT tokens
-- **📊 Dashboard** - Overview of daily nutrition, water, steps, and exercise
-- **🍎 Nutrition Tracking** - Log meals with detailed macro information
-- **💧 Water Tracking** - Track daily hydration with quick-add buttons
-- **🏃 Exercise Logging** - Log workouts with calorie burn calculations
-- **👣 Walking/Steps** - Track daily steps and walking sessions
-- **📸 AI Food Scanning** - Take a photo of food to automatically identify and log it
-- **📈 Insights & Analytics** - Charts and trends for your health data
+- Calorie intake tracking with detailed macro information
+- Water intake tracking
+- Insights and analytics with charts and trends
+- AI-powered food scanning
 
-## Tech Stack
+## Architecture
 
 ### Frontend
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **Tailwind CSS** - Styling
-- **React Router** - Navigation
-- **Zustand** - State management
-- **Chart.js** - Data visualization
-- **React Hook Form** - Form handling
-- **Framer Motion** - Animations
+- React 18 with TypeScript
+- Vite build tool
+- Tailwind CSS for styling
+- Zustand for state management
+- Chart.js for data visualization
 
 ### Backend
-- **FastAPI** - Python web framework
-- **PostgreSQL** - Database
-- **SQLAlchemy** - ORM
-- **Pydantic** - Data validation
-- **JWT** - Authentication
-- **OpenAI GPT-4 Vision** - Food recognition (optional)
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- Python 3.11+
-- PostgreSQL 15+
-- Docker (optional)
-
-### Option 1: Docker (Recommended)
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/ai-food-tracking.git
-cd ai-food-tracking
-
-# Start all services
-docker-compose up -d
-
-# Access the app
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:8000
-# API Docs: http://localhost:8000/docs
-```
-
-### Option 2: Manual Setup
-
-#### Backend
-
-```bash
-cd backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Copy environment file
-cp .env.example .env
-# Edit .env with your configuration
-
-# Initialize database
-psql -U postgres -c "CREATE DATABASE food_tracking;"
-psql -U postgres -d food_tracking -f database/schema.sql
-
-# Run the server
-uvicorn app.main:app --reload
-```
-
-#### Frontend
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-## Environment Variables
-
-### Backend (.env)
-
-```env
-# Application
-APP_NAME="AI Food Tracking"
-DEBUG=true
-ENVIRONMENT=development
-
-# Database
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/food_tracking
-
-# JWT
-SECRET_KEY=your-super-secret-key
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-# OpenAI (for food scanning)
-OPENAI_API_KEY=your-openai-api-key
-```
-
-### Frontend (.env)
-
-```env
-VITE_API_URL=http://localhost:8000/api/v1
-```
-
-## API Documentation
-
-When running in development mode, API documentation is available at:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+- FastAPI (Python)
+- PostgreSQL database
+- SQLAlchemy ORM
+- JWT authentication
+- OpenAI GPT-4 Vision for food recognition
 
 ## Project Structure
 
@@ -159,24 +54,30 @@ ai-food-tracking/
 └── docker-compose.yml
 ```
 
-## Features Roadmap
+## Getting Started
 
-- [ ] Meal planning and recipes
-- [ ] Barcode scanning
-- [ ] Social features and challenges
-- [ ] Wearable device integrations
-- [ ] Personalized meal recommendations
-- [ ] Export data to CSV/PDF
-- [ ] Dark mode
+```bash
+# Clone the repository
+git clone https://github.com/tchalikanti1705/ai-cal-track.git
+cd ai-cal-track
+
+# Start all services with Docker
+docker-compose up -d
+
+# Access the app
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8000
+# API Docs: http://localhost:8000/docs
+```
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add your feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License
