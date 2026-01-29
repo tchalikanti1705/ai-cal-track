@@ -54,28 +54,6 @@ ai-food-tracking/
 └── docker-compose.yml
 ```
 
-## Getting Started
 
-```bash
-# Clone the repository
-git clone https://github.com/tchalikanti1705/ai-cal-track.git
-cd ai-cal-track
-
-# Start all services with Docker
-docker-compose up -d
-
-# Access the app
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:8000
-# API Docs: http://localhost:8000/docs
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m 'Add your feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
 
 
