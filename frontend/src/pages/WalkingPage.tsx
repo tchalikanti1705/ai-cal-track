@@ -301,3 +301,4 @@ export const WalkingPage: React.FC = () => {
 };
 
 export default WalkingPage;
+
