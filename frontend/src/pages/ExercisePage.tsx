@@ -275,3 +275,4 @@ export const ExercisePage: React.FC = () => {
 };
 
 export default ExercisePage;
+
